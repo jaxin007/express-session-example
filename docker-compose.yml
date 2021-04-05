@@ -1,0 +1,17 @@
+version: "3"
+
+services:
+  redis:
+    container_name: "redis_example"
+    image: redis
+    ports:
+      - "6379:6379"
+    env_file: ".env"
+    restart: unless-stopped
+
+  postgres:
+    container_name: "postgres_example"
+    image: postgres:12
+    ports:
+      - "3300:3300"
+    env_file: ".env"

@@ -1,0 +1,14 @@
+.idea
+node_modules
+*.env
+tmp
+views
+public
+build
+#Netbeans IDE
+nbproject/
+
+# Elastic Beanstalk Files
+.elasticbeanstalk/*
+!.elasticbeanstalk/*.cfg.yml
+!.elasticbeanstalk/*.global.yml
