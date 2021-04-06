@@ -12,4 +12,6 @@ export interface EnvConfigInterfase {
   REDIS_HOST: string;
   REDIS_PORT: number;
   REDIS_SECRET: string;
+
+  SESSION_LIFE_TIME: number;
 }

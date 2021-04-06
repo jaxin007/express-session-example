@@ -1,9 +1,10 @@
 import {
-  BeforeInsert,
   Column,
+  CreateDateColumn,
   Entity,
   OneToMany,
   PrimaryGeneratedColumn,
+  UpdateDateColumn,
 } from 'typeorm';
 
 import {
@@ -11,6 +12,7 @@ import {
 } from './sessionIds.entity';
 import {
   EntityNames,
+  UserRoles,
 } from '../constants';
 
 @Entity(EntityNames.users)
@@ -41,6 +43,26 @@ export class User {
     nullable: true,
   })
   email: string;
+
+  @Column({
+    type: 'enum',
+    enum: UserRoles,
+    nullable: false,
+    default: UserRoles.user,
+  })
+  role: UserRoles;
+
+  @CreateDateColumn({
+    type: 'timestamp',
+    default: 'CURRENT_TIMESTAMP(6)',
+  })
+  created_at: Date;
+
+  @UpdateDateColumn({
+    type: 'timestamp',
+    default: 'CURRENT_TIMESTAMP(6)',
+  })
+  updated_at: Date;
 
   @OneToMany(() => SessionIds, (sessionId) => sessionId.user)
   sessionIds: SessionIds[];

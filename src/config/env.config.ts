@@ -15,4 +15,6 @@ export const envConfig: EnvConfigInterfase = {
   REDIS_HOST: process.env.REDIS_HOST || 'localhost',
   REDIS_SECRET: process.env.REDIS_SECRET || 'secret',
   REDIS_PORT: Number.parseInt(process.env.REDIS_PORT || '6379', 10),
+
+  SESSION_LIFE_TIME: Number.parseInt(process.env.SESSION_LIFE_TIME || '360000', 10),
 };

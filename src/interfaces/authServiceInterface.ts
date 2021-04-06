@@ -3,6 +3,7 @@ import {
 } from 'typeorm';
 
 import {
+  SessionIds,
   User,
 } from '../entities';
 
@@ -15,7 +16,9 @@ export interface AuthServiceInterface {
 
   findUser(userId?: number): Promise<User>,
 
-  findUserByLogin(login: string): Promise<User>,
+  findUserByLogin(login: string, findOrFail?: boolean): Promise<User | undefined>,
 
   registerUser(userData: RegisterUserModel): Promise<InsertResult>,
+
+  terminateAllOtherSessions(userId: number, currentSessionId: string): Promise<SessionIds[]>,
 }

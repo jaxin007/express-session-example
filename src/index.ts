@@ -5,19 +5,23 @@ import session, {
 } from 'express-session';
 
 import {
+  EntityNotFoundError,
+} from 'typeorm';
+import {
   auth,
   getSomeSecureData,
   home,
 } from './routes';
 import {
   HttpError,
+  ValidationError,
 } from './errors';
 
 import {
   sessionConfig,
 } from './config';
 
-export const createApp = (store: Store, conn: any): express.Application => {
+export const createApp = (store: Store): express.Application => {
   const app = express();
 
   app.use(bodyParser.json());
@@ -38,7 +42,19 @@ export const createApp = (store: Store, conn: any): express.Application => {
   app.use('/api/secure', getSomeSecureData);
 
   app.use((err: HttpError, req: express.Request, res: express.Response, next: express.NextFunction) => {
-    res.status(err.status || 500).json({
+    if (err instanceof ValidationError) {
+      return res.status(err.status).json({
+        errMessage: err.validationErrors,
+      });
+    }
+
+    if (err instanceof EntityNotFoundError) {
+      return res.status(404).json({
+        errMessage: err.message,
+      });
+    }
+
+    return res.status(err.status || 500).json({
       errMessage: err?.detail || err.message,
     });
   });

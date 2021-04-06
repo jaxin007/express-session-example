@@ -1,8 +1,15 @@
 import 'express-session';
 
+import {
+  UserRoles,
+} from '../../constants';
+
 declare module 'express-session' {
     interface SessionData {
-      createdAt?: number,
-      userId?: number,
+      user: {
+        createdAt?: number,
+        id?: number,
+        role?: UserRoles,
+      }
     }
 }

@@ -2,8 +2,13 @@ import {
   Router,
 } from 'express';
 
+import {
+  HomeController,
+} from '../controllers';
+
 export const home = Router();
 
-home.get('/', (req, res) => res.status(200).json({
-  msg: 'OK',
-}));
+home.get(
+  '/',
+  HomeController.getHome,
+);

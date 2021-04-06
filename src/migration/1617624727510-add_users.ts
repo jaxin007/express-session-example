@@ -4,10 +4,14 @@ import {
   Table,
 } from 'typeorm';
 
+import {
+  EntityNames,
+} from '../constants';
+
 export class addUsers1617624727510 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.createTable(new Table({
-      name: 'users',
+      name: EntityNames.users,
       columns: [
         {
           name: 'id',
@@ -39,6 +43,6 @@ export class addUsers1617624727510 implements MigrationInterface {
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {
-    await queryRunner.dropTable('users', true);
+    await queryRunner.dropTable(EntityNames.users, true);
   }
 }

@@ -5,10 +5,14 @@ import {
   TableForeignKey,
 } from 'typeorm';
 
+import {
+  EntityNames,
+} from '../constants';
+
 export class addUsersSessionIds1617624922694 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.createTable(new Table({
-      name: 'sessionIds',
+      name: EntityNames.sessionIds,
       columns: [
         {
           name: 'id',
@@ -29,7 +33,7 @@ export class addUsersSessionIds1617624922694 implements MigrationInterface {
       ],
     }), true);
 
-    await queryRunner.createForeignKey('sessionIds', new TableForeignKey({
+    await queryRunner.createForeignKey(EntityNames.sessionIds, new TableForeignKey({
       columnNames: ['userId'],
       referencedColumnNames: ['id'],
       referencedTableName: 'users',
@@ -38,6 +42,6 @@ export class addUsersSessionIds1617624922694 implements MigrationInterface {
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {
-    await queryRunner.dropTable('sessionIds', true);
+    await queryRunner.dropTable(EntityNames.sessionIds, true);
   }
 }

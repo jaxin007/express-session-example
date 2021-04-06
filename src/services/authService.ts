@@ -51,14 +51,13 @@ export class AuthService implements AuthServiceInterface {
       .getOneOrFail();
   }
 
-  async findUserByLogin(login: string): Promise<User> {
-    const findQueryString = 'users.login = :login';
-
-    return this.usersRepository.createQueryBuilder('users')
-      .where(findQueryString, {
+  async findUserByLogin(login: string, findOrFail = false): Promise<User | undefined> {
+    const user = await this.usersRepository.createQueryBuilder('users')
+      .where('users.login = :login', {
         login,
-      })
-      .getOneOrFail();
+      });
+
+    return findOrFail ? user.getOneOrFail() : user.getOne();
   }
 
   async assignSessionIdToUser(userId: number, sessionId: string): Promise<InsertResult> {
@@ -72,5 +71,30 @@ export class AuthService implements AuthServiceInterface {
         sessionId,
       })
       .execute();
+  }
+
+  async terminateAllOtherSessions(userId: number, currentSessionId: string): Promise<SessionIds[]> {
+    const sessions = await this.sessionIdsRepository
+      .createQueryBuilder('sessionIds')
+      .where('sessionIds.userId = :userId', {
+        userId,
+      })
+      .where('sessionIds.sessionId != :currentSessionId', {
+        currentSessionId,
+      })
+      .select('sessionIds.sessionId')
+      .getMany();
+
+    await this.sessionIdsRepository
+      .createQueryBuilder('sessionIds')
+      .where('sessionIds.userId = :userId', {
+        userId,
+      })
+      .where('sessionIds.sessionId != :currentSessionId', {
+        currentSessionId,
+      })
+      .delete();
+
+    return sessions;
   }
 }
