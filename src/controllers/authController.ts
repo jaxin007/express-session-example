@@ -24,7 +24,12 @@ export class AuthController {
   static async register(req: express.Request, res: express.Response): Promise<express.Response> {
     const authService = container.get<AuthServiceInterface>(TYPES.AuthService); // TODO: refactor
 
-    await authService.registerUser(req.body);
+    const hashedPassword = await AuthHelper.hashData(req.body.password);
+
+    await authService.registerUser({
+      ...req.body,
+      password: hashedPassword,
+    });
 
     return res.json({
       msg: 'OK',
@@ -34,9 +39,11 @@ export class AuthController {
   static async login(req: express.Request, res: express.Response): Promise<express.Response> {
     const authService = container.get<AuthServiceInterface>(TYPES.AuthService); // TODO: refactor
 
-    const user = await authService.findUserByLogin(req.body.login, false);
+    const user = await authService.findUserByLogin(req.body.login, true);
 
-    if (req.body.login !== user?.login || req.body.password !== user?.password) {
+    const isPasswordCorrect = await AuthHelper.compareData(req.body.password, user!.password);
+
+    if (req.body.login !== user?.login || !isPasswordCorrect) {
       throw new BadRequest('Incorrect auth data');
     }
 

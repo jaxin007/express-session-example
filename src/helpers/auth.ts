@@ -2,6 +2,7 @@ import express, {
   Request,
   Response,
 } from 'express';
+import bcrypt from 'bcrypt';
 
 import {
   envConfig,
@@ -35,5 +36,13 @@ export class AuthHelper {
         resolve();
       });
     });
+  }
+
+  static async hashData(data: string, saltOrRounds: number | string = 10): Promise<string> {
+    return bcrypt.hash(data, saltOrRounds);
+  }
+
+  static async compareData(data: string, hashToCompare: string): Promise<boolean> {
+    return bcrypt.compare(data, hashToCompare);
   }
 }
