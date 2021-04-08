@@ -69,7 +69,7 @@ export class AuthController {
 
     const otherSessions = await authService.terminateAllOtherSessions(req.session.user!.id!, req.sessionID);
 
-    otherSessions.forEach((sessionId) => redisClient.del(`sess:${sessionId.sessionId}`));
+    otherSessions.forEach((sessionId) => redisClient().del(`sess:${sessionId.sessionId}`));
 
     return res.json({
       msg: 'OK',

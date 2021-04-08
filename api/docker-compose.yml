@@ -15,3 +15,15 @@ services:
     ports:
       - "3300:3300"
     env_file: ".env"
+
+  backend:
+    container_name: "backend"
+    build: "."
+    ports:
+      - "${PORT}:${PORT}"
+    env_file: ".env"
+    restart: unless-stopped
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "50m"

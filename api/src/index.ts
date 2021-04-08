@@ -21,9 +21,9 @@ import {
   sessionConfig,
 } from './config';
 
-export const createApp = (store: Store): express.Application => {
-  const app = express();
+export const app = express();
 
+export const createApp = (store: Store): express.Application => {
   app.use(bodyParser.json());
 
   app.use(bodyParser.urlencoded({
@@ -49,9 +49,7 @@ export const createApp = (store: Store): express.Application => {
     }
 
     if (err instanceof EntityNotFoundError) {
-      return res.status(404).json({
-        errMessage: err.message,
-      });
+      return res.status(404).json();
     }
 
     return res.status(err.status || 500).json({
