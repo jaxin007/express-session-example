@@ -11,9 +11,9 @@ import {
 } from './index';
 
 (async () => {
-  await createConnection();
+  await createConnection().catch((err) => console.error(err));
 
-  const app = createApp(store);
+  const app = createApp(store());
 
   app.listen(envConfig.PORT, () => console.log(`Server listened on port ${envConfig.PORT}`));
 })();
