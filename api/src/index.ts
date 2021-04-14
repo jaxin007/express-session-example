@@ -1,5 +1,6 @@
 import express from 'express';
 import bodyParser from 'body-parser';
+import cors from 'cors';
 import session, {
   Store,
 } from 'express-session';
@@ -16,14 +17,19 @@ import {
   HttpError,
   ValidationError,
 } from './errors';
-
 import {
+  envConfig,
   sessionConfig,
 } from './config';
 
 export const app = express();
 
 export const createApp = (store: Store): express.Application => {
+  app.use(cors({
+    origin: envConfig.CLIENT_URL,
+    credentials: true,
+  }));
+
   app.use(bodyParser.json());
 
   app.use(bodyParser.urlencoded({

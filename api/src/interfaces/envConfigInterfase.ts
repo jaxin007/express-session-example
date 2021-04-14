@@ -1,5 +1,7 @@
 /* eslint-disable typescript-sort-keys/interface */
 export interface EnvConfigInterfase {
+  CLIENT_URL: string;
+
   PORT: number;
 
   PGDATABASE: string,

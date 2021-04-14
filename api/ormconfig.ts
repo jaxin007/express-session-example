@@ -10,7 +10,7 @@ export = {
   password: envConfig.PGPASSWORD,
   database: 'postgres',
   synchronize: false,
-  logging: true,
+  logging: ['error'],
   entities: [
     'src/entities/**/*.ts',
   ],
