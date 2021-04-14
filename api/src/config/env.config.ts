@@ -3,6 +3,8 @@ import {
 } from '../interfaces';
 
 export const envConfig: EnvConfigInterfase = {
+  CLIENT_URL: process.env.CLIENT_URL || 'http://localhost:8080',
+
   PORT: Number.parseInt(process.env.PORT || '3000', 10),
 
   PGDATABASE: process.env.PGDATABASE || 'postgres',

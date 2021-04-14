@@ -19,6 +19,9 @@ services:
   backend:
     container_name: "backend"
     build: "."
+    volumes:
+      - ".:/backend_app"
+      - "/backend_app/node_modules"
     ports:
       - "${PORT}:${PORT}"
     env_file: ".env"
